@@ -1,0 +1,24 @@
+{
+  "name": "app",
+  "version": "0.0.0",
+  "main": "app.js",
+  "authors": [
+    "TedB"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.3",
+    "underscore": "~1.7.0",
+    "angular-bootstrap": "~0.11.0",
+    "angular-ui-router": "~0.2.13",
+    "bootstrap": "~3.3.2"
+  }
+}
