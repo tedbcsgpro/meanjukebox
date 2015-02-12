@@ -7,17 +7,18 @@
         .directive('tbAudioplayer', AudioPlaylist)
         .directive('tbAudio', AudioPlayer);
     
-
+ 
     function AudioPlaylist() {
-        return {
-                restrict: 'E',
-                template: '<div class="container"><div class="row" ng-repeat="folder in vm.folders | limitTo:10"><div class="col-sm-12"><button ng-click="vm.openFolderPlayer(folder)" class="btn btn-default" style="width:100%;margin-top:10px;">{{ folder.folderTitle }}</button></div></div></div>',
-                scope: {
+return {
+            restrict: 'E',
+            template: '<div class="container"><div class="row" ng-repeat="folder in vm.folders | orderBy:\'folderTitle\':false"><div class="col-sm-12"><button ng-click="vm.openFolderPlayer(folder)" class="btn btn-default" style="width:100%;margin-top:10px;">{{ folder.folderTitle }}</button></div></div></div>',
+            scope: {
                 audiourl: '@audiourl'
-                },
-                controller: ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
-                    var self = this;
-                    self.folders = [];
+            },
+            controller: ['$scope', '$http', '$modal', function ($scope, $http, $modal) {
+            var self = this;
+            self.folders = [];
+            self.predicate='folderTitle';
             
                     $http.get('http://' + $scope.audiourl)
                     .success(function (data) {
@@ -33,14 +34,17 @@
                                 self.lastSongIdx = 0;
                                 
                                 self.play = function (song) {
-                                    var player = document.getElementById('tb-audio');
                                     self.lastSongIdx = findIndexByKeyValue(folder.songs, 'songFile', song.songFile);
-                                    player.src = song.songFile;
-                                    player.play();
+                                    $scope.$broadcast('playSong');
                                 }
                                 self.ok = function () {
                                     $modalInstance.close();
                                 };
+
+                                $scope.$on('setSongIdx', function (event, args) { 
+                                    self.lastSongIdx = args.idx;
+                                });
+
                             },
                             controllerAs: 'folderPlayerCtrl',
                             resolve: {
@@ -59,18 +63,53 @@
 
     }
     
+   
     function AudioPlayer() {
         return {
             restrict: 'E', 
             template: '<audio id="tb-audio" controls autoplay style="width:100%;line-height:100px;"></audio>',
             link: function (scope, element, attrs) {
-                console.log(scope);
-                element[0].children[0].src = scope.folderPlayerCtrl.folder.songs[scope.folderPlayerCtrl.lastSongIdx].songFile;
-                element[0].children[0].play();
+                console.log('link invoked');
+               
+                var children = element.children(),
+                    player = angular.element((children.length > 0 && children[0].id == 'tb-audio') ? children[0] : null);
+                
+                player[0].volume = .5;
+
+                if (player.length>0) {
+                    player.on('ended', playNextSong);
+                }
+
+                function playLastSong() {
+                    if (player.length>0) {
+                        player[0].src = scope.folderPlayerCtrl.folder.songs[scope.folderPlayerCtrl.lastSongIdx].songFile;
+                        player[0].play();
+                    }
+                }
+                
+                function playNextSong(event){
+                    
+                    var nextIdx = 0;
+                    if (scope.folderPlayerCtrl.lastSongIdx + 1 < scope.folderPlayerCtrl.folder.songs.length) {
+                        nextIdx= scope.folderPlayerCtrl.lastSongIdx + 1
+                    }
+                    scope.$apply(function () {
+                        scope.$emit('setSongIdx', {
+                            idx : nextIdx
+                        });
+                        playLastSong();
+                    });
+                }
+                
+                scope.$on('playSong', function () {
+                    playLastSong();
+                });
+
+                playLastSong();
+
             }
 
         }
-
     }
  
     function findIndexByKeyValue(obj, key, value) {
