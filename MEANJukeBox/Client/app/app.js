@@ -27,7 +27,7 @@ return {
                     
                     self.openFolderPlayer = function (folder) {
                             self.modalInstance = $modal.open({
-                            template: '<div class="modal-header"> <center><h3 class="modal-title">{{folderPlayerCtrl.folder.folderTitle}}</h3></center> </div><div class="modal-body"> <tb-audio></tb-audio><ul class="list-unstyled"><li ng-repeat="song in folderPlayerCtrl.folder.songs"> <button ng-click="folderPlayerCtrl.play(song)" ng-class="{active:folderPlayerCtrl.lastSongIdx === $index}"  class="btn btn-default" style="width:100%;margin-top:5px;">{{song.songTitle}}</button> </li> </ul> </div> <div class="modal-footer"> <button class="btn btn-primary" ng-click="folderPlayerCtrl.ok()">OK</button> </div>',
+                            template: '<div class="modal-header"><div class="pull-right"><button class="btn btn-primary" ng-click="folderPlayerCtrl.ok()">X</button></div><h3 class="modal-title">{{folderPlayerCtrl.folder.folderTitle}}</h3></div><div class="modal-body"> <tb-audio></tb-audio><ul class="list-unstyled"><li ng-repeat="song in folderPlayerCtrl.folder.songs"> <button ng-click="folderPlayerCtrl.play(song)" ng-class="{active:folderPlayerCtrl.lastSongIdx === $index}"  class="btn btn-default" style="width:100%;margin-top:5px;">{{song.songTitle}}</button> </li> </ul> </div> <div class="modal-footer"> <button class="btn btn-primary" ng-click="folderPlayerCtrl.ok()">X</button> </div>',
                                 controller: function ($scope, $modalInstance, folder) {
                                 var self = this;
                                 self.folder = folder;
