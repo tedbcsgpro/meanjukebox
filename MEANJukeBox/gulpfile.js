@@ -53,13 +53,18 @@ gulp.task('css', ['vendorCSS'], function () {
         .pipe(gulp.dest(buildDir + 'css/'))
         .pipe(plugins.connect.reload());
 });
-gulp.task('vendorCSS', function () {
+gulp.task('vendorCSS', ['vendorFonts'], function () {
     //concatenate vendor CSS files
     return gulp.src(['!' + srcDir + 'bower_components/**/*.min.css',
         '!' + srcDir + 'bower_components/bootstrap/**/*.css',
         srcDir + 'bower_components/**/*.css'])
         .pipe(plugins.concat('lib.css'))
         .pipe(gulp.dest(buildDir + 'css/'));
+});
+
+gulp.task('vendorFonts', function () {
+    return gulp.src(srcDir + 'bower_components/bootstrap/fonts/*')
+    .pipe(gulp.dest(buildDir + 'fonts/'));
 });
 
 gulp.task('clean', ['clean:html', 'clean:js', 'clean:css', 'clean:images'], function () {

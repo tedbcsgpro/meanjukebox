@@ -21,6 +21,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand" href="#">Pi Tunes</a>
+
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
@@ -31,11 +32,46 @@
                 </ul>
             </div><!--/.nav-collapse -->
         </div>
+        <div>
+            <center>
+                <audio id="audioplayer" controls></audio>
+            </center>
+        </div>
+
     </nav>
-    <main>
-        
-        <tb-audioplayer audiourl="metated.net/api/audiofiles"></tb-audioplayer>
-        
+
+
+    <main class="container" ng-controller="foldersCtrl as vm">
+        <accordion ng-repeat="folder in vm.folders">
+            <accordion-group close-others="false">
+                <accordion-heading><label>{{folder.folderTitle}}</label></accordion-heading>
+                <div class="row"><div class="col-xs-4"><button class="btn btn-sm btn-block" ng-click="vm.playAll(folder)">Play All</button></div></div>
+                <div class="row" ng-repeat="song in folder.songs">
+                    <div class="col-xs-12">
+                        <button type="button" ng-click="vm.playSong(song)" ng-class="{active:vm.currentSong === song.songFile}" class="btn btn-block btn-default" style="margin-top:5px;text-align:left;">{{ song.songTitle }}</button>
+                    </div>
+                </div>
+            </accordion-group>
+        </accordion>
+
+
+        <!--<div ng-repeat="folder in vm.folders" class="row">
+            <p>
+                <div class="col-xs-11">
+
+                    <button type="button" ng-click="vm.toggleSongList(folder)" class="btn btn-primary btn-block" style="text-align:left;">{{ folder.folderTitle }}</button>
+                    <div class="row" ng-repeat="song in folder.songs" ng-show="folder.expanded">
+                        <div class="col-xs-1"></div>
+                        <div class="col-xs-10">
+                            <button type="button" ng-click="vm.playSong(song)" ng-class="{active:vm.currentSong === song.songFile}" class="btn btn-primary btn-sm btn-block" style="margin-top:5px;text-align:left;">{{ song.songTitle }}</button>
+                        </div>
+                        <div class="col-xs-1"></div>
+                    </div>
+                </div>
+            </p>
+
+        </div>
+            -->
     </main>
 
     <footer></footer>
