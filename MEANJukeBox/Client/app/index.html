@@ -14,19 +14,19 @@
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+                    -->
                 <a class="navbar-brand" href="#">Pi Tunes</a>
 
             </div>
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
+           <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav"> -->
                     <!--<li class="active"><a href="#">Home</a></li>
-
                     <li><a href="#about">About</a></li>
                     <li><a href="#contact">Contact</a></li>-->
                 </ul>
@@ -34,7 +34,10 @@
         </div>
         <div>
             <center>
-                <audio id="audioplayer" controls></audio>
+                <span style="display:inline-block; color:#b3b3b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:300px;" id="audiomarquis"></span>
+                <audio id="audioplayer" controls>
+                </audio>
+               
             </center>
         </div>
 
@@ -45,10 +48,10 @@
         <accordion ng-repeat="folder in vm.folders">
             <accordion-group close-others="false">
                 <accordion-heading><label>{{folder.folderTitle}}</label></accordion-heading>
-                <div class="row"><div class="col-xs-4"><button class="btn btn-sm btn-block" ng-click="vm.playAll(folder)">Play All</button></div></div>
+                <div class="row"><div class="col-xs-4"><button class="btn btn-sm btn-block" ng-click="vm.playSong(folder.songs[0])">Play All</button></div></div>
                 <div class="row" ng-repeat="song in folder.songs">
                     <div class="col-xs-12">
-                        <button type="button" ng-click="vm.playSong(song)" ng-class="{active:vm.currentSong === song.songFile}" class="btn btn-block btn-default" style="margin-top:5px;text-align:left;">{{ song.songTitle }}</button>
+                        <button type="button" ng-click="vm.playSong(song)" ng-class="{active:vm.currentSong === song, focus:vm.currentSong === song }" class="btn btn-block btn-default" style="margin-top:5px;text-align:left;">{{ song.songTitle }}</button>
                     </div>
                 </div>
             </accordion-group>
