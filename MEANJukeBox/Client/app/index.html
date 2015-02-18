@@ -21,29 +21,26 @@
                     <span class="icon-bar"></span>
                 </button>
                     -->
-                <a class="navbar-brand" href="#">Pi Tunes</a>
-
-            </div>
-           <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav"> -->
-                    <!--<li class="active"><a href="#">Home</a></li>
+                <a href="#" class="navbar-brand">Pi Tunes</a>
+                </div>
+           
+            <!--<div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="#contact">Contact</a></li>-->
+                    <li><a href="#contact">Contact</a></li>
                 </ul>
-            </div><!--/.nav-collapse -->
+            </div>-->
+            <!--/.nav-collapse -->
         </div>
-        <div>
-            <center>
-                <span style="display:inline-block; color:#b3b3b3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:300px;" id="audiomarquis"></span>
-                <audio id="audioplayer" controls>
-                </audio>
-               
-            </center>
+        <div class="container">
+                
+                <tb-audio-player id="audioplayer"></tb-audio-player>
         </div>
 
     </nav>
 
-
+    
     <main class="container" ng-controller="foldersCtrl as vm">
         <accordion ng-repeat="folder in vm.folders">
             <accordion-group close-others="false">
