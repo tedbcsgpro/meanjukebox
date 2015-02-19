@@ -1,4 +1,5 @@
-﻿(function () {
+// site.js
+(function () {
     'use strict';
 
     angular.module('jukebox', ['ui.bootstrap'])
