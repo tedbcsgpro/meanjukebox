@@ -44,7 +44,7 @@
     <main class="container" ng-controller="playListCtrl as vm">
         <accordion ng-repeat="folder in vm.folders">
             <accordion-group close-others="false">
-                <accordion-heading><label>{{folder.folderTitle}}</label></accordion-heading>
+                <accordion-heading><label style="width:100%;">{{folder.folderTitle}}</label></accordion-heading>
                 <div class="row"><div class="col-xs-4"><button class="btn btn-sm btn-block" ng-click="vm.playSong(folder.songs[0])">Play All</button></div></div>
                 <div class="row" ng-repeat="song in folder.songs">
                     <div class="col-xs-12">
@@ -55,23 +55,6 @@
         </accordion>
 
 
-        <!--<div ng-repeat="folder in vm.folders" class="row">
-            <p>
-                <div class="col-xs-11">
-
-                    <button type="button" ng-click="vm.toggleSongList(folder)" class="btn btn-primary btn-block" style="text-align:left;">{{ folder.folderTitle }}</button>
-                    <div class="row" ng-repeat="song in folder.songs" ng-show="folder.expanded">
-                        <div class="col-xs-1"></div>
-                        <div class="col-xs-10">
-                            <button type="button" ng-click="vm.playSong(song)" ng-class="{active:vm.currentSong === song.songFile}" class="btn btn-primary btn-sm btn-block" style="margin-top:5px;text-align:left;">{{ song.songTitle }}</button>
-                        </div>
-                        <div class="col-xs-1"></div>
-                    </div>
-                </div>
-            </p>
-
-        </div>
-            -->
     </main>
 
     <footer></footer>
