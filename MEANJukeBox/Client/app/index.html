@@ -34,7 +34,6 @@
             <!--/.nav-collapse -->
         </div>
         <div class="container">
-                
                 <tb-audio-player id="audioplayer"></tb-audio-player>
         </div>
 
@@ -42,8 +41,8 @@
 
     
     <main class="container" ng-controller="playListCtrl as vm">
-        <accordion ng-repeat="folder in vm.folders">
-            <accordion-group close-others="false">
+        <accordion close-others="true">
+            <accordion-group ng-repeat="folder in vm.folders">
                 <accordion-heading><label style="width:100%;">{{folder.folderTitle}}</label></accordion-heading>
                 <div class="row"><div class="col-xs-4"><button class="btn btn-sm btn-block" ng-click="vm.playSong(folder.songs[0])">Play All</button></div></div>
                 <div class="row" ng-repeat="song in folder.songs">

@@ -35,7 +35,6 @@
                                 self.songIdx = newIdx;
                                 $scope.$broadcast('song-changed', { song: self.song, folder: self.folder });
                             },0)
-                            
                         }
                     }
                 };
@@ -72,6 +71,7 @@
         self.currentFolder,
         self.currentSong,
         self.folders = [];
+        $scope.oneAtATime = true;
         
         console.log('PlayListControl');
 
