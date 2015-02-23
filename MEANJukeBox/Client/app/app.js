@@ -2,31 +2,46 @@
     'use strict';
 
     angular.module('jukebox', ['ui.bootstrap'])
-    .config(function ($sceDelegateProvider) {
+    .config(['$sceDelegateProvider', function ($sceDelegateProvider) {
         $sceDelegateProvider.resourceUrlWhitelist(['self', 'http://metated.net/audio/**']);
-    })
+    }])
     .controller('playListCtrl', PlayListControl)
-    .factory('httpService', ['$http', HTTPService])
-    .factory('helperServices', ['$http', HelperServices])
-    .directive('tbAudioPlayer', AudioPlayerDirective);
+    .factory('httpService', HTTPService)
+    .factory('helperServices', HelperServices)
+    .directive('tbAudioPlayer', AudioPlayerDirective)
+    .directive('closeAllGroups', CloseAllGroupsDirective);
+
     
-       
+    CloseAllGroupsDirective.$inject = ['$timeout', 'helperServices'];
+    function CloseAllGroupsDirective($timeout, helperServices) {
+        return {
+            restrict: 'A',
+            link: function (scope, element, attrs) {
+                console.log('linked');
+                angular.element(element).on('click', function (event, args) {
+                    console.log('clicked');
+                    helperServices.closeAllGroups();
+                });
+            }
+        }
+    }
+    
+
     AudioPlayerDirective.$inject = ['$timeout', 'helperServices'];
     function AudioPlayerDirective($timeout, helperServices) {
         return {
             restrict: 'E',
             template: '<span class="marquis" id="foldermarquis">{{playerVM.folder.folderTitle}}</span><span class="marquis" id="songmarquis">{{playerVM.song.songTitle}}</span><br /><audio src={{playerVM.song.songFile}} controls autoplay></audio>',
-            controller: function ($scope) {
-                console.log('playerVMController');
-                console.log($scope);
+            controller: ['$scope', function ($scope) {
                 var self = this;
                 self.song,
                 self.songIdx = 0,
                 self.folder,
                 self.playNextSong = true; // TODO: bind to checkbox, default to checked, to allow specifying playing next song in list
+
                 
                 $scope.ended = function (event, args) {
-                    console.log('ended')
+                        console.log(event);
                     if (self.playNextSong) {
                         var newIdx = self.songIdx + 1;
                         if (newIdx < self.folder.songs.length - 1) {
@@ -38,7 +53,8 @@
                         }
                     }
                 };
-
+                
+              
                 $scope.$on('play-song', function (event, args) {
                     if (args.folder) { 
                         self.folder = args.folder;
@@ -51,7 +67,7 @@
                     }
                 });
 
-            },
+            }],
             controllerAs:'playerVM',
             link: function (scope, iElem, iAttrs) {
                 console.log('link');
@@ -71,7 +87,6 @@
         self.currentFolder,
         self.currentSong,
         self.folders = [];
-        $scope.oneAtATime = true;
         
         console.log('PlayListControl');
 
@@ -79,7 +94,7 @@
         httpService.getSongList(self.restUrl).then(function (data) {
             self.folders = data;
         });
-        
+
         self.playAll = function (folder) {
             self.currentFolder = folder;
             $scope.$emit('play-song', {song:null, folder:folder})
@@ -95,9 +110,16 @@
             self.currentSong = args.song;
             self.currentFolder = args.folder;
         });
+
+        
+        $scope.$on('close-all', function (event, args) {
+            console.log('close-all');
+            self.groupOpen = !self.groupOpen;
+        });
+                
     }
     
-    
+    HTTPService.$inject = ['$http'];
     function HTTPService($http) {
         
         var factory = {};
@@ -134,7 +156,15 @@
             }
             return null;
         }
-
+        
+        factory.closeAllGroups = function () {
+            
+            var ins = document.getElementsByClassName("in");
+            var len = ins.length - 1;
+            for (var i = len; i >= 0; i--) {
+                angular.element(ins[i]).removeClass("in");
+            }
+        }
         return factory;
     }
     

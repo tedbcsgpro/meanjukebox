@@ -8,8 +8,7 @@
     <title>Pi Tunes</title>
     <link href="/css/lib.css" rel="stylesheet" />
     <link href="/css/app.css" rel="stylesheet" />
- 
-</head>
+ </head>
 <body ng-cloak>
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
@@ -22,6 +21,9 @@
                 </button>
                     -->
                 <a href="#" class="navbar-brand">Pi Tunes</a>
+                
+                    <div class="pull-right" style="margin-top:10px;"><button class="btn btn-small" close-all-groups>Collapse All</button></div>
+
                 </div>
            
             <!--<div id="navbar" class="collapse navbar-collapse">
@@ -34,6 +36,7 @@
             <!--/.nav-collapse -->
         </div>
         <div class="container">
+               
                 <tb-audio-player id="audioplayer"></tb-audio-player>
         </div>
 
@@ -41,7 +44,7 @@
 
     
     <main class="container" ng-controller="playListCtrl as vm">
-        <accordion close-others="true">
+        <accordion close-others="false">
             <accordion-group ng-repeat="folder in vm.folders">
                 <accordion-heading><label style="width:100%;">{{folder.folderTitle}}</label></accordion-heading>
                 <div class="row"><div class="col-xs-4"><button class="btn btn-sm btn-block" ng-click="vm.playSong(folder.songs[0])">Play All</button></div></div>

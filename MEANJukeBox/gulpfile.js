@@ -29,14 +29,17 @@ gulp.task('scripts', ['config', 'copy-index'], function () {
         srcDir + 'bower_components/underscore/underscore.js'
     ];
     
-    var appStream = gulp.src([srcDir+'/app/js/*.js', srcDir+'/app/app.js'])
+    var appStream = gulp.src([srcDir + '/app/js/*.js', srcDir + '/app/app.js'])
         .pipe(plugins.concat('app.js'))
-        .pipe(gulp.dest(buildDir + '/js')); 
+        //.pipe(plugins.uglify())
+        .pipe(gulp.dest(buildDir + '/js'));
+
 
     var vendorStream = gulp.src(libSrc)
         .pipe(plugins.concat('lib.js'))
+        //.pipe(plugins.uglify())
         .pipe(gulp.dest(buildDir + '/js'));
-        // .pipe(plugins.uglify())
+
 
     return gulp.src(buildDir + 'index.html')
         .pipe(plugins.inject(es.merge(vendorStream), { name: 'vendor', relative: true, addRootSlash: true }))
